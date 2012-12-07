@@ -1,0 +1,410 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7F3DEB9516726ED200361381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEB9416726ED200361381 /* Foundation.framework */; };
+		7F3DEB9A16726ED200361381 /* RapidAppSDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7F3DEB9916726ED200361381 /* RapidAppSDK.h */; };
+		7F3DEB9C16726ED200361381 /* RapidAppSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEB9B16726ED200361381 /* RapidAppSDK.m */; };
+		7F3DEBA416726ED200361381 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEBA316726ED200361381 /* SenTestingKit.framework */; };
+		7F3DEBA616726ED200361381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEBA516726ED200361381 /* UIKit.framework */; };
+		7F3DEBA716726ED200361381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEB9416726ED200361381 /* Foundation.framework */; };
+		7F3DEBAA16726ED200361381 /* libRapidAppSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEB9116726ED200361381 /* libRapidAppSDK.a */; };
+		7F3DEBB016726ED200361381 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F3DEBAE16726ED200361381 /* InfoPlist.strings */; };
+		7F3DEBB316726ED200361381 /* RapidAppSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7F3DEBA816726ED200361381 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F3DEB8816726ED200361381 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7F3DEB9016726ED200361381;
+			remoteInfo = RapidAppSDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7F3DEB8F16726ED200361381 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				7F3DEB9A16726ED200361381 /* RapidAppSDK.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7F3DEB9116726ED200361381 /* libRapidAppSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRapidAppSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F3DEB9416726ED200361381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7F3DEB9816726ED200361381 /* RapidAppSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RapidAppSDK-Prefix.pch"; sourceTree = "<group>"; };
+		7F3DEB9916726ED200361381 /* RapidAppSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RapidAppSDK.h; sourceTree = "<group>"; };
+		7F3DEB9B16726ED200361381 /* RapidAppSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RapidAppSDK.m; sourceTree = "<group>"; };
+		7F3DEBA216726ED200361381 /* RapidAppSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RapidAppSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F3DEBA316726ED200361381 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7F3DEBA516726ED200361381 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		7F3DEBAD16726ED200361381 /* RapidAppSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RapidAppSDKTests-Info.plist"; sourceTree = "<group>"; };
+		7F3DEBAF16726ED200361381 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7F3DEBB116726ED200361381 /* RapidAppSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RapidAppSDKTests.h; sourceTree = "<group>"; };
+		7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RapidAppSDKTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7F3DEB8E16726ED200361381 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F3DEB9516726ED200361381 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F3DEB9E16726ED200361381 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F3DEBA416726ED200361381 /* SenTestingKit.framework in Frameworks */,
+				7F3DEBA616726ED200361381 /* UIKit.framework in Frameworks */,
+				7F3DEBA716726ED200361381 /* Foundation.framework in Frameworks */,
+				7F3DEBAA16726ED200361381 /* libRapidAppSDK.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7F3DEB8616726ED200361381 = {
+			isa = PBXGroup;
+			children = (
+				7F3DEB9616726ED200361381 /* RapidAppSDK */,
+				7F3DEBAB16726ED200361381 /* RapidAppSDKTests */,
+				7F3DEB9316726ED200361381 /* Frameworks */,
+				7F3DEB9216726ED200361381 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7F3DEB9216726ED200361381 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEB9116726ED200361381 /* libRapidAppSDK.a */,
+				7F3DEBA216726ED200361381 /* RapidAppSDKTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7F3DEB9316726ED200361381 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEB9416726ED200361381 /* Foundation.framework */,
+				7F3DEBA316726ED200361381 /* SenTestingKit.framework */,
+				7F3DEBA516726ED200361381 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7F3DEB9616726ED200361381 /* RapidAppSDK */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEB9916726ED200361381 /* RapidAppSDK.h */,
+				7F3DEB9B16726ED200361381 /* RapidAppSDK.m */,
+				7F3DEB9716726ED200361381 /* Supporting Files */,
+			);
+			path = RapidAppSDK;
+			sourceTree = "<group>";
+		};
+		7F3DEB9716726ED200361381 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEB9816726ED200361381 /* RapidAppSDK-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7F3DEBAB16726ED200361381 /* RapidAppSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEBB116726ED200361381 /* RapidAppSDKTests.h */,
+				7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */,
+				7F3DEBAC16726ED200361381 /* Supporting Files */,
+			);
+			path = RapidAppSDKTests;
+			sourceTree = "<group>";
+		};
+		7F3DEBAC16726ED200361381 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEBAD16726ED200361381 /* RapidAppSDKTests-Info.plist */,
+				7F3DEBAE16726ED200361381 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7F3DEB9016726ED200361381 /* RapidAppSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F3DEBB616726ED200361381 /* Build configuration list for PBXNativeTarget "RapidAppSDK" */;
+			buildPhases = (
+				7F3DEB8D16726ED200361381 /* Sources */,
+				7F3DEB8E16726ED200361381 /* Frameworks */,
+				7F3DEB8F16726ED200361381 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RapidAppSDK;
+			productName = RapidAppSDK;
+			productReference = 7F3DEB9116726ED200361381 /* libRapidAppSDK.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		7F3DEBA116726ED200361381 /* RapidAppSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F3DEBB916726ED200361381 /* Build configuration list for PBXNativeTarget "RapidAppSDKTests" */;
+			buildPhases = (
+				7F3DEB9D16726ED200361381 /* Sources */,
+				7F3DEB9E16726ED200361381 /* Frameworks */,
+				7F3DEB9F16726ED200361381 /* Resources */,
+				7F3DEBA016726ED200361381 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7F3DEBA916726ED200361381 /* PBXTargetDependency */,
+			);
+			name = RapidAppSDKTests;
+			productName = RapidAppSDKTests;
+			productReference = 7F3DEBA216726ED200361381 /* RapidAppSDKTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7F3DEB8816726ED200361381 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Bampukugan Corp.";
+			};
+			buildConfigurationList = 7F3DEB8B16726ED200361381 /* Build configuration list for PBXProject "RapidAppSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7F3DEB8616726ED200361381;
+			productRefGroup = 7F3DEB9216726ED200361381 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7F3DEB9016726ED200361381 /* RapidAppSDK */,
+				7F3DEBA116726ED200361381 /* RapidAppSDKTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7F3DEB9F16726ED200361381 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F3DEBB016726ED200361381 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7F3DEBA016726ED200361381 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7F3DEB8D16726ED200361381 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F3DEB9C16726ED200361381 /* RapidAppSDK.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F3DEB9D16726ED200361381 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F3DEBB316726ED200361381 /* RapidAppSDKTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7F3DEBA916726ED200361381 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7F3DEB9016726ED200361381 /* RapidAppSDK */;
+			targetProxy = 7F3DEBA816726ED200361381 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7F3DEBAE16726ED200361381 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7F3DEBAF16726ED200361381 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7F3DEBB416726ED200361381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		7F3DEBB516726ED200361381 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7F3DEBB716726ED200361381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/RapidAppSDK.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RapidAppSDK/RapidAppSDK-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		7F3DEBB816726ED200361381 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/RapidAppSDK.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RapidAppSDK/RapidAppSDK-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		7F3DEBBA16726ED200361381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RapidAppSDK/RapidAppSDK-Prefix.pch";
+				INFOPLIST_FILE = "RapidAppSDKTests/RapidAppSDKTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7F3DEBBB16726ED200361381 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RapidAppSDK/RapidAppSDK-Prefix.pch";
+				INFOPLIST_FILE = "RapidAppSDKTests/RapidAppSDKTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7F3DEB8B16726ED200361381 /* Build configuration list for PBXProject "RapidAppSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F3DEBB416726ED200361381 /* Debug */,
+				7F3DEBB516726ED200361381 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7F3DEBB616726ED200361381 /* Build configuration list for PBXNativeTarget "RapidAppSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F3DEBB716726ED200361381 /* Debug */,
+				7F3DEBB816726ED200361381 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7F3DEBB916726ED200361381 /* Build configuration list for PBXNativeTarget "RapidAppSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F3DEBBA16726ED200361381 /* Debug */,
+				7F3DEBBB16726ED200361381 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7F3DEB8816726ED200361381 /* Project object */;
+}
