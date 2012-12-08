@@ -202,23 +202,27 @@
     });
 }
 
+static NSString *ParamsString(const NSDictionary *params)
+{
+	NSMutableString *buff = [NSMutableString new];
+	for (NSString *key in params.allKeys)
+	{
+		id val = params[key];
+		if (![val isKindOfClass:[NSString class]])
+			val = [val description];
+		val = [val stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		[buff appendFormat:@"%@=%@&", key, val];
+	}
+	return [buff autorelease];
+}
+
 static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 {
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
 	if (posts)
 	{
-		NSMutableString *buff = [[url absoluteString] mutableCopy];
-		[buff appendString:@"?"];
-		for (NSString *key in posts.allKeys)
-		{
-			id val = posts[key];
-			if (![val isKindOfClass:[NSString class]])
-				val = [val description];
-			val = [val stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-			[buff appendFormat:@"%@=%@&", key, val];
-		}
+		NSString *buff = ParamsString(posts);
 		[request setHTTPBody:[buff dataUsingEncoding:NSUTF8StringEncoding]];
-		[buff release];
 	}
 	return request;
 }
@@ -227,7 +231,7 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 {
 	if (!_urlRequest)
 	{
-		_urlRequest = MakeRequest(_url, _posts);
+		_urlRequest = [MakeRequest(_url, _posts) retain];
 		[self privateModifyReqeust:_urlRequest];
 	}
 	return _urlRequest;
@@ -236,13 +240,27 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 // Процесс загрузки и обработки загруженного можно прервать установив self.stop в NO
 - (void)process
 {
+	float step = 1. / (2 + self.privateNeedToCache + self.privateNeedToParse);
 	if (_stop) return;
+	self.progress = 0;
+	[self notifyDelegatesWithStatus:RALoaderItemStatusProgress];
 	[self load];
+	self.progress += step;
+	[self notifyDelegatesWithStatus:RALoaderItemStatusProgress];
 	if (_stop) return;
 	if (self.privateNeedToCache)
+	{
 		[self cache];
+		self.progress += step;
+		[self notifyDelegatesWithStatus:RALoaderItemStatusProgress];
+	}
 	if (self.privateNeedToParse)
+	{
 		[self privateParseResponseData:_data];
+		self.progress += step;
+		[self notifyDelegatesWithStatus:RALoaderItemStatusProgress];
+	}
+	self.progress = 1;
 	[self complete];
 	
 	// Выписываем себя из очереди загрузки
@@ -332,6 +350,15 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 
 - (void)notifyDelegatesWithStatus:(RALoaderItemStatus)status
 {
+	// Уведомления надо рассылать только в главном потоке
+	if (![NSThread isMainThread])
+	{
+		dispatch_sync(dispatch_get_main_queue(), ^{
+			[self notifyDelegatesWithStatus:status];
+		});
+		return;
+	}
+	// Перебираем все делегаты и рассылаем им уведомления
 	for (int i = 0; i < _delegatesCount; i++)
 	{
 		id<RALoaderItemDelegate> delegate = _delegates[i];
@@ -400,7 +427,7 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 {
 	if (!_items)
 		_items = [NSMutableDictionary new];
-	if (item.token)
+	if (!item.token)
 	{
 		NSString *token = [NSString stringWithFormat:@"%@/%x", NSStringFromClass([item class]), (int)item];
 		item.token = token;
