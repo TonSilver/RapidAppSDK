@@ -1,0 +1,14 @@
+//
+// Prefix header for all source files of the 'RapidAppSDK' target in the 'RapidAppSDK' project
+//
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import "RAHelper.h"
+#import "RAFileCache.h"
+#import "RALoaderItem.h"
+#endif
+
+#if !defined (DEBUG) && !defined (NSLog)
+#define NSLog(...)
+#endif

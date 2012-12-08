@@ -6,8 +6,10 @@
 //  Copyright (c) 2012 Bampukugan Corp. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#ifdef __OBJC__
 
-@interface RapidAppSDK : NSObject
+#import "RAHelper.h"
+#import "RAFileCache.h"
+#import "RALoaderItem.h"
 
-@end
+#endif // __OBJC__

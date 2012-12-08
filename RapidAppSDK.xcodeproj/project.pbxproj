@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		7F3DEB9516726ED200361381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEB9416726ED200361381 /* Foundation.framework */; };
 		7F3DEB9A16726ED200361381 /* RapidAppSDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7F3DEB9916726ED200361381 /* RapidAppSDK.h */; };
-		7F3DEB9C16726ED200361381 /* RapidAppSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEB9B16726ED200361381 /* RapidAppSDK.m */; };
 		7F3DEBA416726ED200361381 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEBA316726ED200361381 /* SenTestingKit.framework */; };
 		7F3DEBA616726ED200361381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEBA516726ED200361381 /* UIKit.framework */; };
 		7F3DEBA716726ED200361381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEB9416726ED200361381 /* Foundation.framework */; };
 		7F3DEBAA16726ED200361381 /* libRapidAppSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3DEB9116726ED200361381 /* libRapidAppSDK.a */; };
 		7F3DEBB016726ED200361381 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F3DEBAE16726ED200361381 /* InfoPlist.strings */; };
 		7F3DEBB316726ED200361381 /* RapidAppSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */; };
+		7F3DEBE416738F2400361381 /* RAFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBE216738F1F00361381 /* RAFileCache.m */; };
+		7F3DEBE516738F2900361381 /* RALoaderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBD51673627F00361381 /* RALoaderItem.m */; };
+		7F3DEBEA167390D800361381 /* RAHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBE9167390D800361381 /* RAHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,9 +46,8 @@
 /* Begin PBXFileReference section */
 		7F3DEB9116726ED200361381 /* libRapidAppSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRapidAppSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F3DEB9416726ED200361381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		7F3DEB9816726ED200361381 /* RapidAppSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RapidAppSDK-Prefix.pch"; sourceTree = "<group>"; };
+		7F3DEB9816726ED200361381 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		7F3DEB9916726ED200361381 /* RapidAppSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RapidAppSDK.h; sourceTree = "<group>"; };
-		7F3DEB9B16726ED200361381 /* RapidAppSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RapidAppSDK.m; sourceTree = "<group>"; };
 		7F3DEBA216726ED200361381 /* RapidAppSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RapidAppSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F3DEBA316726ED200361381 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7F3DEBA516726ED200361381 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -54,6 +55,12 @@
 		7F3DEBAF16726ED200361381 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7F3DEBB116726ED200361381 /* RapidAppSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RapidAppSDKTests.h; sourceTree = "<group>"; };
 		7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RapidAppSDKTests.m; sourceTree = "<group>"; };
+		7F3DEBD41673627F00361381 /* RALoaderItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RALoaderItem.h; sourceTree = "<group>"; };
+		7F3DEBD51673627F00361381 /* RALoaderItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RALoaderItem.m; sourceTree = "<group>"; };
+		7F3DEBE116738F1F00361381 /* RAFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFileCache.h; sourceTree = "<group>"; };
+		7F3DEBE216738F1F00361381 /* RAFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFileCache.m; sourceTree = "<group>"; };
+		7F3DEBE8167390D800361381 /* RAHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAHelper.h; sourceTree = "<group>"; };
+		7F3DEBE9167390D800361381 /* RAHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				7F3DEB9616726ED200361381 /* RapidAppSDK */,
+				7F3DEB9716726ED200361381 /* Supporting Files */,
 				7F3DEBAB16726ED200361381 /* RapidAppSDKTests */,
 				7F3DEB9316726ED200361381 /* Frameworks */,
 				7F3DEB9216726ED200361381 /* Products */,
@@ -112,8 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				7F3DEB9916726ED200361381 /* RapidAppSDK.h */,
-				7F3DEB9B16726ED200361381 /* RapidAppSDK.m */,
-				7F3DEB9716726ED200361381 /* Supporting Files */,
+				7F3DEBE7167390C900361381 /* Helper */,
+				7F3DEBE616738F3200361381 /* Cache */,
+				7F3DEBD81673628600361381 /* Loader */,
 			);
 			path = RapidAppSDK;
 			sourceTree = "<group>";
@@ -121,9 +130,10 @@
 		7F3DEB9716726ED200361381 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7F3DEB9816726ED200361381 /* RapidAppSDK-Prefix.pch */,
+				7F3DEB9816726ED200361381 /* Prefix.pch */,
 			);
 			name = "Supporting Files";
+			path = RapidAppSDK;
 			sourceTree = "<group>";
 		};
 		7F3DEBAB16726ED200361381 /* RapidAppSDKTests */ = {
@@ -143,6 +153,33 @@
 				7F3DEBAE16726ED200361381 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7F3DEBD81673628600361381 /* Loader */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEBD41673627F00361381 /* RALoaderItem.h */,
+				7F3DEBD51673627F00361381 /* RALoaderItem.m */,
+			);
+			name = Loader;
+			sourceTree = "<group>";
+		};
+		7F3DEBE616738F3200361381 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEBE116738F1F00361381 /* RAFileCache.h */,
+				7F3DEBE216738F1F00361381 /* RAFileCache.m */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
+		7F3DEBE7167390C900361381 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				7F3DEBE8167390D800361381 /* RAHelper.h */,
+				7F3DEBE9167390D800361381 /* RAHelper.m */,
+			);
+			name = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,7 +280,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F3DEB9C16726ED200361381 /* RapidAppSDK.m in Sources */,
+				7F3DEBE416738F2400361381 /* RAFileCache.m in Sources */,
+				7F3DEBE516738F2900361381 /* RALoaderItem.m in Sources */,
+				7F3DEBEA167390D800361381 /* RAHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +336,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -316,7 +355,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -327,7 +366,7 @@
 			buildSettings = {
 				DSTROOT = /tmp/RapidAppSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RapidAppSDK/RapidAppSDK-Prefix.pch";
+				GCC_PREFIX_HEADER = RapidAppSDK/Prefix.pch;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -339,7 +378,7 @@
 			buildSettings = {
 				DSTROOT = /tmp/RapidAppSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RapidAppSDK/RapidAppSDK-Prefix.pch";
+				GCC_PREFIX_HEADER = RapidAppSDK/Prefix.pch;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -395,6 +434,7 @@
 				7F3DEBB816726ED200361381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7F3DEBB916726ED200361381 /* Build configuration list for PBXNativeTarget "RapidAppSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +443,7 @@
 				7F3DEBBB16726ED200361381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
