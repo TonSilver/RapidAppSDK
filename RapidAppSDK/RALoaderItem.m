@@ -9,6 +9,19 @@
 #import "RALoaderItem.h"
 
 
+#pragma mark - RASimpleSet
+
+@interface RASimpleSet : NSObject
+@property (nonatomic, readonly) NSUInteger count;
+- (void)addObject:(id)obj;
+- (void)removeObject:(id)obj;
+- (void)removeAllObjects;
+- (NSUInteger)indexOfObject:(id)obj;
+- (BOOL)containsObject:(id)obj;
+- (void)enumerateObjectsUsingBlock:(void(^)(id obj, BOOL *stop))block;
+@end
+
+
 #pragma mark - Loader (Privates)
 
 @interface RALoader : NSObject
@@ -36,15 +49,10 @@
 #pragma mark - Loader Item (interface)
 
 @interface RALoaderItem ()
-{
-@protected
-	// Все делегаты для данного лоадера
-	id *_delegates;
-}
-
 // Идентификатор загрузки в базе RALoader
 @property (nonatomic, retain) NSString *token;
-@property (nonatomic, assign) int delegatesCount;
+// Все делегаты для данного лоадера
+@property (nonatomic, retain) RASimpleSet *delegates; // [id<RALoaderItemDelegate>]
 // Индикатор процесса загрузки
 @property (atomic, assign) BOOL loading;
 // Надо установить переменную в YES, чтобы остановить загрузку элемента
@@ -60,11 +68,6 @@
 @property (nonatomic, retain) NSError *error;
 // Прогресс загрузки (от 0 до 1)
 @property (nonatomic) float progress;
-
-// Добавление и удаление делегатов
-- (void)addDelegate:(id)delegate;
-- (BOOL)removeDelegate:(id)delegate;
-- (void)notifyDelegatesWithStatus:(RALoaderItemStatus)status;
 @end
 
 
@@ -79,7 +82,7 @@
 - (void)dealloc
 {
 	[[RALoader shared] unregisterLoaderItem:self];
-	if (_delegates) free(_delegates);
+	[self removeAllDelegates];
 	[_token release];
 	[_url release];
 	[_urlRequest release];
@@ -91,7 +94,7 @@
 	[super dealloc];
 }
 
-+ (RALoaderItem *)itemWithURLString:(NSString *)urlString postParams:(NSDictionary *)posts
++ (RALoaderItem *)itemWithURLString:(NSString *)urlString postParams:(NSDictionary *)posts forDelegate:(id)delegate
 {
 	NSURL *url = [NSURL URLWithString:urlString];
 	if (!url)
@@ -104,13 +107,14 @@
 		item.url = url;
 		item.posts = posts;
 	}
+	[[RALoader shared] registerLoaderItem:item forDelegate:delegate];
 	return item;
 }
 
 + (RALoaderItem *)loadURLString:(NSString *)urlString withPostParams:(NSDictionary *)posts forDelegate:(id)delegate
 {
-	RALoaderItem *item = [self itemWithURLString:urlString postParams:posts];
-	[[RALoader shared] registerLoaderItem:item forDelegate:delegate];
+	RALoaderItem *item = [self itemWithURLString:urlString postParams:posts forDelegate:delegate];
+	[item returnCacheForDelegate:delegate];
 	[item startDelayed];
 	return item;
 }
@@ -170,17 +174,21 @@
 
 #pragma mark - Process
 
+- (void)returnCacheForDelegate:(id<RALoaderItemDelegate>)delegate
+{
+    // Берем из кеша, если надо
+    if (self.privateNeedToCache)
+    {
+		[self fetchFromCacheAndPrecompleteForDelegate:delegate];
+    }
+}
+
 - (void)startDelayed
 {
 	if (!self.loading)
 	{
 		// Отмечаем, что загрузка началась
 		self.loading = YES;
-		// Берем из кеша, если надо
-		if (self.privateNeedToCache)
-		{
-			[self fetchFromCacheAndPrecomplete];
-		}
 		// Стартуем операцию с опозданием (в текущем потоке)
 		dispatch_async(dispatch_get_current_queue(), ^{
 			[self start];
@@ -287,12 +295,12 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 
 #pragma mark - Cache
 
-- (void)fetchFromCacheAndPrecomplete
+- (void)fetchFromCacheAndPrecompleteForDelegate:(id<RALoaderItemDelegate>)delegate
 {
 	if ([RAFileCache isURLCached:self.url])
 	{
 		self.data = [RAFileCache cacheForURL:self.url];
-		[self precomplete];
+		[self precompleteForDelegate:delegate];
 	}
 }
 
@@ -313,43 +321,55 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 
 - (void)addDelegate:(id)delegate
 {
-	// Ищем индекс делегата
-	for (int i = 0; i < _delegatesCount; i++)
-		if (delegate == _delegates[i])
-			return;
-	// Если не нашли, то добавляем делегат
-	if (!_delegates)
-		_delegates = calloc(1, sizeof(id));
-	else
-		_delegates = realloc(_delegates, _delegatesCount + 1);
-	_delegates[_delegatesCount] = delegate;
-	// Увеличиваем счетчик делегатов
-	_delegatesCount++;
+	// Добавляем делегат только если он не добавлен
+    if (!delegate)
+        return;
+    
+	if (![self.delegates containsObject:delegate])
+	{
+		if (!self.delegates)
+			self.delegates = [[RASimpleSet new] autorelease];
+		[self.delegates addObject:delegate];
+	}
 }
 
-- (BOOL)removeDelegate:(id)delegate
+- (void)removeDelegate:(id)delegate
 {
-	int i = 0;
-	// Ищем индекс удаляемого делегата
-	for (; i < _delegatesCount; i++)
-		if (delegate == _delegates[i])
-			break;
-	// Если делегат не найден, то ничего не делаем
-	if (i >= _delegatesCount)
-		return FALSE;
-	// Иначе, перемещаем все делегаты после на одну позицию вбок
-	for (; i < _delegatesCount - 1; i++)
-		_delegates[i] = _delegates[i+1];
-	if (_delegatesCount <= 1)
-		free(_delegates);
-	else
-		_delegates = realloc(_delegates, _delegatesCount-1);
-	_delegatesCount--;
-	return YES;
+    if (!delegate)
+        return;
+    
+	// Делегат будет удален только если он действительно там есть
+	if ([self.delegates containsObject:delegate])
+		[self.delegates removeObject:delegate];
+}
+
+- (void)removeAllDelegates
+{
+	[self.delegates removeAllObjects];
+}
+
+#pragma mark - Notifiers
+
+- (void)notifyDelegate:(id<RALoaderItemDelegate>)delegate withStatus:(RALoaderItemStatus)status
+{
+	if (self.stop)
+		return;
+	// Уведомления надо рассылать только в главном потоке
+	if (dispatch_get_current_queue() != dispatch_get_main_queue())
+	{
+		dispatch_sync(dispatch_get_main_queue(), ^{
+			[self notifyDelegate:delegate withStatus:status];
+		});
+		return;
+	}
+	// Уведомляем делегат и отсылаем ему уведомление
+	[delegate loaderItem:self status:status url:self.url data:self.data cacheURL:self.cacheURL date:self.date error:self.error progress:self.progress];
 }
 
 - (void)notifyDelegatesWithStatus:(RALoaderItemStatus)status
 {
+	if (self.stop)
+		return;
 	// Уведомления надо рассылать только в главном потоке
 	if (![NSThread isMainThread])
 	{
@@ -359,17 +379,15 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 		return;
 	}
 	// Перебираем все делегаты и рассылаем им уведомления
-	for (int i = 0; i < _delegatesCount; i++)
-	{
-		id<RALoaderItemDelegate> delegate = _delegates[i];
+	[self.delegates enumerateObjectsUsingBlock:^(id<RALoaderItemDelegate> delegate, BOOL *stop) {
 		[delegate loaderItem:self status:status url:self.url data:self.data cacheURL:self.cacheURL date:self.date error:self.error progress:self.progress];
-	}
+	}];
 }
 
 #pragma mark - Complete
 
-- (void)precomplete {
-	[self notifyDelegatesWithStatus:RALoaderItemStatusCache];
+- (void)precompleteForDelegate:(id<RALoaderItemDelegate>)delegate {
+	[self notifyDelegate:delegate withStatus:RALoaderItemStatusCache];
 }
 - (void)complete {
 	if (!self.error)
@@ -438,13 +456,23 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 
 - (void)unregisterLoaderItem:(RALoaderItem *)item forDelegate:(id)delegate
 {
+    if (![item.delegates containsObject:delegate])
+        return;
+    
 	if (delegate)
 		[item removeDelegate:delegate];
+	else
+		[item removeAllDelegates];
 	// Удалем элемент, если делегат не был указан или делегаты элемента кончились
-	if ((item.delegatesCount < 1) || !delegate)
+	if ((item.delegates.count < 1) || !delegate)
 	{
 		if (item.token)
-			[_items removeObjectForKey:item.token];
+		{
+			NSString *token = [[item.token retain] autorelease];
+			item.stop = YES;
+			item.token = nil;
+			[_items removeObjectForKey:token];
+		}
 	}
 }
 
@@ -467,6 +495,127 @@ static NSMutableURLRequest *MakeRequest(NSURL *url, const NSDictionary *posts)
 	if (!_queue)
 		_queue = dispatch_queue_create("RapidAppSDK.Loader.Queue", DISPATCH_QUEUE_SERIAL);
 	return _queue;
+}
+
+@end
+
+
+#pragma mark - RASimpleSet
+
+@interface RASimpleSet ()
+{
+@private
+	NSUInteger _capacity;
+	id *_array;
+}
+@end
+
+@implementation RASimpleSet
+
+- (void)dealloc
+{
+	[self removeAllObjects];
+	[super dealloc];
+}
+
+- (void)addObject:(id)obj
+{
+	if (!_array)
+	{
+		_array = calloc(1, sizeof(id));
+		if (_array)
+			_capacity = 1;
+	}
+	else if (_capacity <= _count)
+	{
+		id *buff = calloc(_capacity * 2, sizeof(id));
+		if (buff)
+		{
+			memcpy(buff, _array, _capacity * sizeof(id));
+			free(_array);
+			_array = buff;
+			_capacity *= 2;
+		}
+		else
+		{
+			[self removeAllObjects];
+		}
+	}
+	
+	if (_array && (_count < _capacity))
+	{
+		_array[_count] = obj;
+		_count++;
+	}
+}
+
+- (void)removeObject:(id)obj
+{
+	NSUInteger found = [self indexOfObject:obj];
+	if (found != NSNotFound)
+	{
+		if (_count <= 1)
+		{
+			[self removeAllObjects];
+		}
+		else
+		{
+			for (NSUInteger idx = found; idx < _count - 1; idx++)
+				_array[idx] = _array[idx+1];
+			_count--;
+		}
+	}
+}
+
+- (void)removeAllObjects
+{
+	if (_array)
+	{
+		free(_array);
+		_array = nil;
+		_count = 0;
+		_capacity = 0;
+	}
+}
+
+- (NSUInteger)indexOfObject:(id)obj
+{
+	for (NSUInteger idx = 0; idx < _count; idx++)
+	{
+		if (obj == _array[idx])
+			return idx;
+	}
+	return NSNotFound;
+}
+
+- (BOOL)containsObject:(id)obj
+{
+	return ([self indexOfObject:obj] != NSNotFound);
+}
+
+#ifdef DEBUG
+- (NSString *)description
+{
+	NSMutableArray *strs = [NSMutableArray arrayWithCapacity:_count];
+	for (NSUInteger idx = 0; idx < _count; idx++)
+		[strs addObject:[NSString stringWithFormat:@"%x", (int)_array[idx]]];
+	return [NSString stringWithFormat:@"<%i|%@>", _count, [strs componentsJoinedByString:@","]];
+}
+#endif
+
+- (void)enumerateObjectsUsingBlock:(void(^)(id obj, BOOL *stop))block
+{
+	if (block)
+	{
+		for (NSUInteger idx = 0; idx < _count; idx++)
+		{
+			BOOL stop = NO;
+			id obj = _array[idx];
+			block(obj, &stop);
+			if (stop)
+				break;
+		}
+	}
 }
 
 @end
