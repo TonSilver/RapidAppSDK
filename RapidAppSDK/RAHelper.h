@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
 
 
 #define RA_SHORTYFY(STR, CNT) ([STR length] > (CNT) ? [STR substringFromIndex:[STR length] - (CNT)] : STR)
@@ -35,6 +37,11 @@
 #pragma mark - (Locale)
 
 + (NSString *)currentLocale;
+
+#pragma mark - UIImage
+
++ (UIImage *)imageFromImage:(UIImage *)image scaledToFitSize:(CGSize)size;
++ (UIImage *)imageFromImage:(UIImage *)image croopedToFitSize:(CGSize)size;
 
 #pragma mark - NSString
 
