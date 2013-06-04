@@ -1,9 +1,5 @@
 //
 //  RAFileCache.h
-//  TNK-BP
-//
-//  Created by Anton Serebryakov on 29.11.12.
-//  Copyright (c) 2012 iDEAST. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,8 +7,12 @@
 
 @interface RAFileCache : NSObject
 
+// Единажды создает экземпляр данного класса
++ (instancetype)shared;
+
 // Путь к файлу в кэше
 + (NSURL *)cacheURLForURL:(NSURL *)url;
++ (NSString *)cachePathStringForURLString:(NSString *)url;
 
 // Запись в кеш по URL и с временем последнего изменения объекта
 + (BOOL)setCache:(NSData *)value withDate:(NSDate *)date forURL:(NSURL *)url;

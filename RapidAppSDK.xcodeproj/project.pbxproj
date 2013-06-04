@@ -16,8 +16,11 @@
 		7F3DEBB016726ED200361381 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F3DEBAE16726ED200361381 /* InfoPlist.strings */; };
 		7F3DEBB316726ED200361381 /* RapidAppSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */; };
 		7F3DEBE416738F2400361381 /* RAFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBE216738F1F00361381 /* RAFileCache.m */; };
-		7F3DEBE516738F2900361381 /* RALoaderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBD51673627F00361381 /* RALoaderItem.m */; };
 		7F3DEBEA167390D800361381 /* RAHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBE9167390D800361381 /* RAHelper.m */; };
+		7F7BB0511756604C009370E3 /* RADataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F7BB0501756604C009370E3 /* RADataBase.m */; };
+		7F7BB0521756604C009370E3 /* RADataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F7BB0501756604C009370E3 /* RADataBase.m */; };
+		7F7BB05317566056009370E3 /* RAHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBE9167390D800361381 /* RAHelper.m */; };
+		7F7BB05417566059009370E3 /* RAFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F3DEBE216738F1F00361381 /* RAFileCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,12 +58,16 @@
 		7F3DEBAF16726ED200361381 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7F3DEBB116726ED200361381 /* RapidAppSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RapidAppSDKTests.h; sourceTree = "<group>"; };
 		7F3DEBB216726ED200361381 /* RapidAppSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RapidAppSDKTests.m; sourceTree = "<group>"; };
-		7F3DEBD41673627F00361381 /* RALoaderItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RALoaderItem.h; sourceTree = "<group>"; };
-		7F3DEBD51673627F00361381 /* RALoaderItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RALoaderItem.m; sourceTree = "<group>"; };
 		7F3DEBE116738F1F00361381 /* RAFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFileCache.h; sourceTree = "<group>"; };
 		7F3DEBE216738F1F00361381 /* RAFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFileCache.m; sourceTree = "<group>"; };
 		7F3DEBE8167390D800361381 /* RAHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAHelper.h; sourceTree = "<group>"; };
 		7F3DEBE9167390D800361381 /* RAHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAHelper.m; sourceTree = "<group>"; };
+		7F7BB04F1756604C009370E3 /* RADataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RADataBase.h; sourceTree = "<group>"; };
+		7F7BB0501756604C009370E3 /* RADataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RADataBase.m; sourceTree = "<group>"; };
+		7F7BB05517566199009370E3 /* RAHelperPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RAHelperPrivate.h; sourceTree = "<group>"; };
+		7F7BB0671756684B009370E3 /* RASharedPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RASharedPrivate.h; sourceTree = "<group>"; };
+		7F7BB08F175718BB009370E3 /* RALoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RALoader.h; sourceTree = "<group>"; };
+		7F7BB090175718BB009370E3 /* RALoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RALoader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				7F3DEB9616726ED200361381 /* RapidAppSDK */,
-				7F3DEB9716726ED200361381 /* Supporting Files */,
 				7F3DEBAB16726ED200361381 /* RapidAppSDKTests */,
 				7F3DEB9316726ED200361381 /* Frameworks */,
 				7F3DEB9216726ED200361381 /* Products */,
@@ -120,9 +126,12 @@
 			isa = PBXGroup;
 			children = (
 				7F3DEB9916726ED200361381 /* RapidAppSDK.h */,
+				7FD5FA48175DC94E00FF2F8D /* Private */,
 				7F3DEBE7167390C900361381 /* Helper */,
 				7F3DEBE616738F3200361381 /* Cache */,
-				7F3DEBD81673628600361381 /* Loader */,
+				7F7BB04E17566002009370E3 /* DataBase */,
+				7F7BB08E175718A4009370E3 /* Loader */,
+				7F3DEB9716726ED200361381 /* Supporting Files */,
 			);
 			path = RapidAppSDK;
 			sourceTree = "<group>";
@@ -133,7 +142,6 @@
 				7F3DEB9816726ED200361381 /* Prefix.pch */,
 			);
 			name = "Supporting Files";
-			path = RapidAppSDK;
 			sourceTree = "<group>";
 		};
 		7F3DEBAB16726ED200361381 /* RapidAppSDKTests */ = {
@@ -155,15 +163,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7F3DEBD81673628600361381 /* Loader */ = {
-			isa = PBXGroup;
-			children = (
-				7F3DEBD41673627F00361381 /* RALoaderItem.h */,
-				7F3DEBD51673627F00361381 /* RALoaderItem.m */,
-			);
-			name = Loader;
-			sourceTree = "<group>";
-		};
 		7F3DEBE616738F3200361381 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +179,33 @@
 				7F3DEBE9167390D800361381 /* RAHelper.m */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		7F7BB04E17566002009370E3 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				7F7BB04F1756604C009370E3 /* RADataBase.h */,
+				7F7BB0501756604C009370E3 /* RADataBase.m */,
+			);
+			name = DataBase;
+			sourceTree = "<group>";
+		};
+		7F7BB08E175718A4009370E3 /* Loader */ = {
+			isa = PBXGroup;
+			children = (
+				7F7BB08F175718BB009370E3 /* RALoader.h */,
+				7F7BB090175718BB009370E3 /* RALoader.m */,
+			);
+			name = Loader;
+			sourceTree = "<group>";
+		};
+		7FD5FA48175DC94E00FF2F8D /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				7F7BB05517566199009370E3 /* RAHelperPrivate.h */,
+				7F7BB0671756684B009370E3 /* RASharedPrivate.h */,
+			);
+			name = Private;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,8 +307,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F3DEBE416738F2400361381 /* RAFileCache.m in Sources */,
-				7F3DEBE516738F2900361381 /* RALoaderItem.m in Sources */,
 				7F3DEBEA167390D800361381 /* RAHelper.m in Sources */,
+				7F7BB0511756604C009370E3 /* RADataBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +317,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F3DEBB316726ED200361381 /* RapidAppSDKTests.m in Sources */,
+				7F7BB0521756604C009370E3 /* RADataBase.m in Sources */,
+				7F7BB05317566056009370E3 /* RAHelper.m in Sources */,
+				7F7BB05417566059009370E3 /* RAFileCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

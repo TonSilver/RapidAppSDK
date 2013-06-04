@@ -1,12 +1,10 @@
 //
 //  RAHelper.m
-//  RapidAppSDK
-//
-//  Created by Anton Serebryakov on 08.12.12.
-//  Copyright (c) 2012 Bampukugan Corp. All rights reserved.
 //
 
 #import "RAHelper.h"
+#import "RAHelperPrivate.h"
+#import "RASharedPrivate.h"
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -27,6 +25,7 @@
 #pragma mark - Implementations!
 
 @implementation RAHelper
+SHARED_METHOD_IMPLEMENTATION
 
 
 #pragma mark - (Dictionary)
@@ -274,14 +273,6 @@ typedef enum {
 
 #pragma mark - Core
 
-+ (id)shared
-{
-	static RAHelper *SharedHelper = nil;
-	if (!SharedHelper)
-		SharedHelper = [RAHelper new];
-	return SharedHelper;
-}
-
 - (void)dealloc
 {
 	[_objCache release];
@@ -300,7 +291,8 @@ typedef enum {
 - (void)didReceiveMemoryWarning
 {
 	NSUInteger count = _objCache.count;
-	[_objCache release]; _objCache = nil;
+	[_objCache release];
+	_objCache = nil;
 	NSLog(@"[RAHelper] Cleared cache for %i objects", count);
 }
 

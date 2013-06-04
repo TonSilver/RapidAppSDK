@@ -1,13 +1,11 @@
 //
 //  RAFileCache.m
-//  TNK-BP
-//
-//  Created by Anton Serebryakov on 29.11.12.
-//  Copyright (c) 2012 iDEAST. All rights reserved.
 //
 
 #import "RAFileCache.h"
 #import "RAHelper.h"
+#import "RAHelperPrivate.h"
+#import "RASharedPrivate.h"
 
 
 // Для отладки
@@ -18,6 +16,7 @@
 
 
 @implementation RAFileCache
+SHARED_METHOD_IMPLEMENTATION
 
 + (NSString *)cachesDirectoryPath
 {
@@ -59,16 +58,33 @@
 /*
  Генерирует имя файла в кеше по его URL.
  */
+static inline NSString *cacheNameStringForURLString(NSString *urlString)
+{
+#if defined (STORE_PATH_EXT) || (defined (DEBUG) && TARGET_IPHONE_SIMULATOR)
+	NSString *md5 = [RAHelper md5FromString:urlString];
+	NSString *name = [md5 stringByAppendingPathExtension:[urlString pathExtension]];
+#else
+	NSString *name = [urlString myMD5];
+#endif
+	return name;
+}
+
 + (NSURL *)cacheURLForURL:(NSURL *)url
 {
 	if (!url)
 		return nil;
-	
-	NSString *urlString = url.absoluteString;
-	NSString *md5 = [RAHelper md5FromString:urlString];
-	NSString *name = [md5 stringByAppendingPathExtension:[urlString pathExtension]];
+	NSString *name = cacheNameStringForURLString(url.absoluteString);
 	NSString *path = [[self fileCachePath] stringByAppendingPathComponent:name];
 	return [NSURL fileURLWithPath:path];
+}
+
++ (NSString *)cachePathStringForURLString:(NSString *)urlString
+{
+	if (!urlString || ![urlString length])
+		return nil;
+	NSString *name = cacheNameStringForURLString(urlString);
+	NSString *path = [[self fileCachePath] stringByAppendingPathComponent:name];
+	return path;
 }
 
 + (BOOL)setCache:(NSData *)value withDate:(NSDate *)date forURL:(NSURL *)url
