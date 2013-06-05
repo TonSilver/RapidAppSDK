@@ -11,7 +11,7 @@
 
 
 NSString *RADataBaseIsReadyNotification = @"[RADataBase] Is ready notification";
-NSString *RADataBaseDidFailNotification = @"[RADataBase] Did fail notification";
+NSString *RADataBaseIsReadyNotificationError = @"error";
 
 static NSString *RADataBaseIsInitializedKey = @"[RADataBase] InitializedKeyFor [%@]";
 
@@ -64,6 +64,7 @@ SHARED_METHOD_IMPLEMENTATION
 	self.isReady = NO;
 	self.readContext = nil;
 	self.writeContext = nil;
+	self.model = nil;
 	self.lastError = nil;
 }
 
@@ -130,8 +131,8 @@ SHARED_METHOD_IMPLEMENTATION
 /*
  Данный метод делает следующее:
  1. Инициализация БД выполняется в фоне и гарантированно один раз в один промежуток времени.
- 2. При некорректной инициализации посылается уведомление об этом (IDDataBaseIsReadyNotification).
- 3. При успешной инициализации уведомление так же имеется (RADataBaseDidFailNotification).
+ 2. При некорректной инициализации посылается уведомление об этом с ошибкой (RADataBaseIsReadyNotification with error).
+ 3. При успешной инициализации уведомление так же имеется (RADataBaseIsReadyNotification).
  */
 - (void)recreateContexts
 {
@@ -280,7 +281,7 @@ SHARED_METHOD_IMPLEMENTATION
 				NSLog(@"%08x [RADataBase|%@] [CRITICAL] %@", (int)self, NSStringFromSelector(_cmd), error);
 				self.lastError = error;
 				dispatch_sync(dispatch_get_main_queue(), ^ {
-					[[NSNotificationCenter defaultCenter] postNotificationName:RADataBaseDidFailNotification object:self];
+					[[NSNotificationCenter defaultCenter] postNotificationName:RADataBaseIsReadyNotification object:self userInfo:@{RADataBaseIsReadyNotificationError:error}];
 				});
 			}
 			

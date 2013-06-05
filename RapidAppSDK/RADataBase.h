@@ -8,10 +8,10 @@
 @class NSManagedObjectContext;
 
 
-// Notification about complenting of database opening operation (object is used database)
+// Notification about complenting of database opening operation (object is used database), may be with error
 extern NSString *RADataBaseIsReadyNotification;
-// Notification about error that occured when database tryed to open (object is used database)
-extern NSString *RADataBaseDidFailNotification;
+// Error occured during database initialization
+extern NSString *RADataBaseIsReadyNotificationError;
 
 
 @class RADataBase;
