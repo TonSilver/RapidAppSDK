@@ -10,6 +10,7 @@
 
 // Для отладки
 #define RAFC_SHORTYFY(URL) RA_SHORTYFY(URL.absoluteString, 35)
+#define STORE_PATH_EXT 1
 
 // Имя идректории с файлами кэша
 #define RA_CACHE_DIR @"RapidAppSDK.FileCache.V1"
@@ -64,7 +65,7 @@ static inline NSString *cacheNameStringForURLString(NSString *urlString)
 	NSString *md5 = [RAHelper md5FromString:urlString];
 	NSString *name = [md5 stringByAppendingPathExtension:[urlString pathExtension]];
 #else
-	NSString *name = [urlString myMD5];
+	NSString *name = [RAHelper md5FromString:urlString];
 #endif
 	return name;
 }
