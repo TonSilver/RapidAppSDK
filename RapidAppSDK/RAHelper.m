@@ -290,10 +290,9 @@ typedef enum {
 
 - (void)didReceiveMemoryWarning
 {
-	NSUInteger count = _objCache.count;
+	NSLog(@"[RAHelper] Clear cache for %i objects", _objCache.count);
 	[_objCache release];
 	_objCache = nil;
-	NSLog(@"[RAHelper] Cleared cache for %i objects", count);
 }
 
 @end
