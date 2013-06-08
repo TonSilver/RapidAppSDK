@@ -17,6 +17,10 @@ static NSString *RADataBaseIsInitializedKey = @"[RADataBase] InitializedKeyFor [
 
 
 @interface RADataBase ()
+{
+    NSMutableDictionary *fetchedPacks;
+    NSMutableDictionary *updatedPacks;
+}
 
 @property (atomic, assign) BOOL isReady;
 @property (atomic, retain) NSError *lastError;
@@ -44,11 +48,22 @@ SHARED_METHOD_IMPLEMENTATION
 	self.readContext = nil;
 	self.writeContext = nil;
 	self.lastError = nil;
+	[fetchedPacks release];
+	[updatedPacks release];
 	[super dealloc];
+}
+
+- (void)myInit
+{
+	if (!fetchedPacks)
+		fetchedPacks = [NSMutableDictionary new];
+	if (!updatedPacks)
+		updatedPacks = [NSMutableDictionary new];
 }
 
 - (void)open
 {
+	[self myInit];
 	[self close];
 	[self recreateContexts];
 }
@@ -356,4 +371,78 @@ SHARED_METHOD_IMPLEMENTATION
 	[request release];
 	return objects;
 }
+
+
+#pragma mark Updading system
+
+- (void)beginUpdatingObjectsOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
+{
+	// Достаем обновляемые объекты
+	NSFetchRequest *request = [[NSFetchRequest new] autorelease];
+	request.entity = entity;
+	request.predicate = predicate;
+	NSArray *newFetched = [context executeFetchRequest:request error:nil];
+	// И сохраняем их для быстрого доступа
+	NSArray *fetched = fetchedPacks[entity.name];
+	if (fetched)
+		fetchedPacks[entity.name] = [fetched arrayByAddingObjectsFromArray:newFetched];
+	else
+		fetchedPacks[entity.name] = newFetched;
+	
+	// Создаем массив для запоминания обновленных объектов
+	if (!updatedPacks[entity.name])
+		updatedPacks[entity.name] = [NSMutableSet set];
+}
+
+- (id)updatingObjectOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
+{
+	NSMutableSet *set = [updatedPacks objectForKey:entity.name];
+	// Возвращаем обновляемый объект, который соответствует предикату
+	NSArray *fetched = [fetchedPacks objectForKey:entity.name];
+	NSArray *needed = [fetched filteredArrayUsingPredicate:predicate];
+	id result = nil;
+	// Если нужный объект найден, то возвращаем его
+	if (needed.count > 0)
+		result = needed[0];
+	// Если объекта не было, то создаем его и запоминаем как обновленный
+	else
+		result = [[[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:context] autorelease];
+	[set addObject:result];
+	return result;
+}
+
+- (void)endUpdatingObjectsOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
+{
+	NSMutableSet *set = [updatedPacks objectForKey:entity.name];
+	if (!set)
+		return;
+	
+	NSFetchRequest *request = [[NSFetchRequest new] autorelease];
+	request.entity = entity;
+	
+	if (predicate)
+	{
+		// Пересоздаем предикат, если множество редактированных объектов не пусто
+		if (set.count > 0)
+		{
+			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, [NSPredicate predicateWithFormat:@"NOT SELF IN %@", set]]];
+		}
+		// Передаем предикат запросу
+		request.predicate = predicate;
+	}
+	else if (set.count > 0)
+	{
+		request.predicate = [NSPredicate predicateWithFormat:@"NOT SELF IN %@", set];
+	}
+	
+	NSArray *oldObjects = [context executeFetchRequest:request error:nil];
+	[oldObjects enumerateObjectsUsingBlock:^(NSManagedObject *obj, NSUInteger idx, BOOL *stop) {
+		[context deleteObject:obj];
+	}];
+	
+	// После окончания действий с обновлением БД удаляем временные массивы
+	[fetchedPacks removeObjectForKey:entity.name];
+	[updatedPacks removeObjectForKey:entity.name];
+}
+
 @end

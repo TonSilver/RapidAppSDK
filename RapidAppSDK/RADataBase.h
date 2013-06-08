@@ -3,9 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
-@class NSManagedObjectContext;
+#import <CoreData/CoreData.h>
 
 
 // Notification about complenting of database opening operation (object is used database), may be with error
@@ -66,5 +64,11 @@ extern NSString *RADataBaseIsReadyNotificationError;
 + (id)objectOfEntity:(NSString *)entity withParams:(NSDictionary *)params fromContext:(NSManagedObjectContext *)context;
 + (id)objectsOfEntity:(NSString *)entity withParams:(NSDictionary *)params andNotSatisfyingParams:(NSDictionary *)notParams  fromContext:(NSManagedObjectContext *)context;
 + (NSArray *)objectsOfEntity:(NSString *)entity withParams:(NSDictionary *)params fromContext:(NSManagedObjectContext *)context;
+
+#pragma mark Updading system
+
+- (void)beginUpdatingObjectsOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
+- (id)updatingObjectOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
+- (void)endUpdatingObjectsOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 @end
