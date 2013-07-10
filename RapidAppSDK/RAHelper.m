@@ -256,6 +256,24 @@ typedef enum {
 	return nil;
 }
 
+// Возвращает не более N символов с конца строки
++ (NSString *)suffixOfString:(NSString *)string maxLength:(NSInteger)maxLength
+{
+	if (string)
+	{
+		NSInteger len = string.length;
+		if (len <= maxLength)
+			return string;
+		else
+		{
+			if (maxLength > 3)
+				maxLength -= 3;
+			return [@"..." stringByAppendingString:[string substringFromIndex:len - maxLength]];
+		}
+	}
+	return nil;
+}
+
 
 #pragma mark - Cache
 

@@ -34,6 +34,9 @@
 // Возвращает дату из строки, используемой в HTTP-заголовках
 + (NSDate *)httpHeaderLastModifiedFromString:(NSString *)string;
 
+// Возвращает не более N символов с конца строки
++ (NSString *)suffixOfString:(NSString *)string maxLength:(NSInteger)maxLength;
+
 #pragma mark - Caching
 
 // Единажды создает экземпляр данного класса
