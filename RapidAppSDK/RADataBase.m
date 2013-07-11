@@ -407,6 +407,7 @@ SHARED_METHOD_IMPLEMENTATION
 	// Если объекта не было, то создаем его и запоминаем как обновленный
 	else
 		result = [[[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:context] autorelease];
+	// Отмечаем объект, как обновленный
 	[set addObject:result];
 	return result;
 }

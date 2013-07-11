@@ -313,4 +313,22 @@ typedef enum {
 	_objCache = nil;
 }
 
+#pragma mark - Debugging
+
+static NSString *debug_FileLogPath = nil;
+
++ (void)debug_setFileLogPath:(NSString *)path
+{
+	debug_FileLogPath = path;
+}
+
++ (void)debug_write:(NSData *)data inFile:(NSString *)fileName
+{
+	if (debug_FileLogPath)
+	{
+		NSString *path = [debug_FileLogPath stringByAppendingPathComponent:fileName];
+		[data writeToFile:path atomically:YES];
+	}
+}
+
 @end

@@ -45,4 +45,9 @@
 // Через shared-object
 - (id)valueForKey:(NSString *)key withBlock:(id(^)(void))block;
 
+#pragma mark - Debugging
+
++ (void)debug_setFileLogPath:(NSString *)path;
++ (void)debug_write:(NSData *)data inFile:(NSString *)fileName;
+
 @end
