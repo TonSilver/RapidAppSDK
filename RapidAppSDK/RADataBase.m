@@ -442,8 +442,53 @@ SHARED_METHOD_IMPLEMENTATION
 	}];
 	
 	// После окончания действий с обновлением БД удаляем временные массивы
+	NSLog(@"Updated[%@] %i", entity.name, set.count);
 	[fetchedPacks removeObjectForKey:entity.name];
 	[updatedPacks removeObjectForKey:entity.name];
+}
+
+/*
+ Возвращает объект из БД и создает новый, если в БД его нет и нужно создать
+ */
+- (id)objectOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate withValues:(NSDictionary *)values inContext:(NSManagedObjectContext *)context createIfAbsent:(BOOL)create
+{
+	NSFetchRequest *request = [[NSFetchRequest new] autorelease];
+	request.entity = entity;
+	// Задаем предикат запросу
+	{
+		NSPredicate *valuesPred = nil;
+		if (values)
+		{
+			NSMutableArray *array = [NSMutableArray arrayWithCapacity:values.count];
+			[values enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+				NSPredicate *p = [NSPredicate predicateWithFormat:@"%K == %@", key, obj];
+				[array addObject:p];
+			}];
+			valuesPred = [NSCompoundPredicate andPredicateWithSubpredicates:array];
+		}
+		if (valuesPred)
+		{
+			if (predicate)
+				predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, valuesPred]];
+			else
+				predicate = valuesPred;
+		}
+		request.predicate = predicate;
+	}
+	
+	NSArray *array = [context executeFetchRequest:request error:nil];
+	if (array.count > 0)
+	{
+		return array[0];
+	}
+	else if (create)
+	{
+		NSManagedObject *obj = [[[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:context] autorelease];
+		if (values)
+			[obj setValuesForKeysWithDictionary:values];
+		return obj;
+	}
+	return nil;
 }
 
 @end

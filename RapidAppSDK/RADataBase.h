@@ -71,4 +71,6 @@ extern NSString *RADataBaseIsReadyNotificationError;
 - (id)updatingObjectOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 - (void)endUpdatingObjectsOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
+- (id)objectOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate withValues:(NSDictionary *)values inContext:(NSManagedObjectContext *)context createIfAbsent:(BOOL)create;
+
 @end
