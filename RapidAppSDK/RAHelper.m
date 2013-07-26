@@ -197,6 +197,57 @@ typedef enum {
 }
 
 
++ (UIImage *)resizableRoundedImageWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
+{
+	RA_CACHE_BEGIN_FORMAT(@"%@%@%.1f%.1f%@", NSStringFromCGSize(size), color, radius, borderWidth, borderColor)
+	
+	// Path making
+	CGMutablePathRef path = CGPathCreateMutable();
+	
+	CGRect rect = CGRectMake(borderWidth/2, borderWidth/2, size.width - borderWidth, size.height - borderWidth);
+	CGRect innerRect = CGRectInset(rect, radius, radius);
+	CGFloat insideRight = innerRect.origin.x + innerRect.size.width;
+	CGFloat outsideRight = rect.origin.x + rect.size.width;
+	CGFloat insideBottom = innerRect.origin.y + innerRect.size.height;
+	CGFloat outsideBottom = rect.origin.y + rect.size.height;
+	CGFloat insideTop = innerRect.origin.y;
+	CGFloat outsideTop = rect.origin.y;
+	CGFloat outsideLeft = rect.origin.x;
+	
+	CGPathMoveToPoint(path, NULL, innerRect.origin.x, outsideTop);
+	CGPathAddLineToPoint(path, NULL, insideRight, outsideTop);
+	CGPathAddArcToPoint(path, NULL, outsideRight, outsideTop, outsideRight, insideTop, radius);
+	CGPathAddLineToPoint(path, NULL, outsideRight, insideBottom);
+	CGPathAddArcToPoint(path, NULL,  outsideRight, outsideBottom, insideRight, outsideBottom, radius);
+	CGPathAddLineToPoint(path, NULL, innerRect.origin.x, outsideBottom);
+	CGPathAddArcToPoint(path, NULL,  outsideLeft, outsideBottom, outsideLeft, insideBottom, radius);
+	CGPathAddLineToPoint(path, NULL, outsideLeft, insideTop);
+	CGPathAddArcToPoint(path, NULL,  outsideLeft, outsideTop, innerRect.origin.x, outsideTop, radius);
+	CGPathCloseSubpath(path);
+	
+	// Drawing
+	UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+	CGContextRef c = UIGraphicsGetCurrentContext();
+	CGContextSetLineWidth(c, borderWidth);
+	CGContextSetFillColorWithColor(c, color.CGColor);
+	CGContextSetStrokeColorWithColor(c, borderColor.CGColor);
+	CGContextAddPath(c, path);
+	CGContextDrawPath(c, kCGPathFillStroke);
+	
+	// Capture image
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(radius, radius, radius, radius)];
+	[image retain];
+	UIGraphicsEndImageContext();
+	
+	CGPathRelease(path);
+	// Return
+	return [image autorelease];
+	
+	RA_CACHE_END
+}
+
+
 #pragma mark - (DateFormatter)
 
 // Получить форматтер нужного формата
@@ -249,11 +300,12 @@ typedef enum {
 + (NSDate *)httpHeaderLastModifiedFromString:(NSString *)string
 {
 	static NSString *DateRFC822Format = @"EEE, dd LLL yyyy HH:mm:ss z";
-	static NSString *DateRFC850Format = @"EEEE, dd-LLL-yy HH:mm:ss z";
 	NSDate *date = [self dateWithFormat:DateRFC822Format fromString:string];
-	if (!date)
-		return date = [self dateWithFormat:DateRFC850Format fromString:string];
-	return nil;
+	if (!date) {
+		static NSString *DateRFC850Format = @"EEEE, dd-LLL-yy HH:mm:ss z";
+		date = [self dateWithFormat:DateRFC850Format fromString:string];
+	}
+	return date;
 }
 
 // Возвращает не более N символов с конца строки

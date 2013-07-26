@@ -23,6 +23,8 @@
 + (UIImage *)imageFromImage:(UIImage *)image scaledToFitSize:(CGSize)size;
 + (UIImage *)imageFromImage:(UIImage *)image croopedToFitSize:(CGSize)size;
 
++ (UIImage *)resizableRoundedImageWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
+
 #pragma mark - NSString
 
 // MD5 hash from string
