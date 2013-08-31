@@ -25,6 +25,14 @@
 
 + (UIImage *)resizableRoundedImageWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
 
+#pragma mark - NSDateFormatter
+
++ (NSDateFormatter *)dateFormatterWithFormat:(NSString *)dateFormat;
+
+#pragma mark - NSDate
+
++ (NSDate *)dateWithMonths:(NSInteger)months sinceDate:(NSDate *)date;
+
 #pragma mark - NSString
 
 // MD5 hash from string

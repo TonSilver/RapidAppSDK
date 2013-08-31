@@ -267,6 +267,19 @@ typedef enum {
 }
 
 
+#pragma mark - (Date)
+
++ (NSDate *)dateWithMonths:(NSInteger)months sinceDate:(NSDate *)date
+{
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+	NSDateComponents *comps = [calendar components:unitFlags fromDate:date];
+	comps.month += months;
+	NSDate *newDate = [calendar dateFromComponents:comps];
+	return newDate;
+}
+
+
 #pragma mark - (String)
 
 // MD5 hash from string

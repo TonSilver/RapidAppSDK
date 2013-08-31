@@ -343,7 +343,7 @@ SHARED_METHOD_IMPLEMENTATION
 	return [RADataBase objectsOfEntity:entity withParams:params andNotSatisfyingParams:nil fromContext:context];
 }
 
-+ (id)objectsOfEntity:(NSString *)entity withParams:(NSDictionary *)params andNotSatisfyingParams:(NSDictionary *)notParams  fromContext:(NSManagedObjectContext *)context
++ (id)objectsOfEntity:(NSString *)entity withParams:(NSDictionary *)params andNotSatisfyingParams:(NSDictionary *)notParams fromContext:(NSManagedObjectContext *)context
 {
     __block NSMutableArray *array = [NSMutableArray array];
 	[params enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
@@ -365,6 +365,17 @@ SHARED_METHOD_IMPLEMENTATION
 	NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:array];
 	NSFetchRequest *request = [NSFetchRequest new];
 	request.entity = [NSEntityDescription entityForName:entity inManagedObjectContext:context];
+	request.predicate = predicate;
+	request.fetchLimit = 0;
+	NSArray *objects = [context executeFetchRequest:request error:nil];
+	[request release];
+	return objects;
+}
+
++ (NSArray *)objectsOfEntity:(NSEntityDescription *)entity withPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
+{
+	NSFetchRequest *request = [NSFetchRequest new];
+	request.entity = entity;
 	request.predicate = predicate;
 	request.fetchLimit = 0;
 	NSArray *objects = [context executeFetchRequest:request error:nil];

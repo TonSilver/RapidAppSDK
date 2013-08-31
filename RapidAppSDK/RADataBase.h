@@ -64,6 +64,7 @@ extern NSString *RADataBaseIsReadyNotificationError;
 + (id)objectOfEntity:(NSString *)entity withParams:(NSDictionary *)params fromContext:(NSManagedObjectContext *)context;
 + (id)objectsOfEntity:(NSString *)entity withParams:(NSDictionary *)params andNotSatisfyingParams:(NSDictionary *)notParams fromContext:(NSManagedObjectContext *)context;
 + (NSArray *)objectsOfEntity:(NSString *)entity withParams:(NSDictionary *)params fromContext:(NSManagedObjectContext *)context;
++ (NSArray *)objectsOfEntity:(NSEntityDescription *)entity withPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 #pragma mark Updading system
 
