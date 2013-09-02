@@ -7,6 +7,9 @@
 #import <UIKit/UIKit.h>
 
 
+#define RA_C255(NUM255) (NUM255 / 255.f)
+
+
 @interface RAHelper : NSObject
 
 #pragma mark - (Dictionary)
