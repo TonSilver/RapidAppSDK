@@ -8,6 +8,7 @@
 
 
 #define RA_C255(NUM255) (NUM255 / 255.f)
+#define RA_ARE_OBJECTS_EQUAL(ONE, IS_EQUAL_SELECTOR, TWO) (!(!!ONE != !!TWO) || (ONE && TWO && ![ONE IS_EQUAL_SELECTOR TWO]))
 
 
 @interface RAHelper : NSObject
