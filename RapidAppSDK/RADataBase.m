@@ -425,35 +425,33 @@ SHARED_METHOD_IMPLEMENTATION
 
 - (void)endUpdatingObjectsOfEntity:(NSEntityDescription *)entity confirmingPredicate:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
 {
-	NSMutableSet *set = [updatedPacks objectForKey:entity.name];
-	if (!set)
+	NSSet *updated = [updatedPacks objectForKey:entity.name];
+	if (!updated)
 		return;
-	
-	NSFetchRequest *request = [[NSFetchRequest new] autorelease];
-	request.entity = entity;
 	
 	if (predicate)
 	{
 		// Пересоздаем предикат, если множество редактированных объектов не пусто
-		if (set.count > 0)
-		{
-			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, [NSPredicate predicateWithFormat:@"NOT SELF IN %@", set]]];
-		}
-		// Передаем предикат запросу
-		request.predicate = predicate;
+		if (updated.count > 0)
+			predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, [NSPredicate predicateWithFormat:@"NOT SELF IN %@", updated]]];
 	}
-	else if (set.count > 0)
+	else if (updated.count > 0)
 	{
-		request.predicate = [NSPredicate predicateWithFormat:@"NOT SELF IN %@", set];
+		predicate = [NSPredicate predicateWithFormat:@"NOT SELF IN %@", updated];
 	}
 	
-	NSArray *oldObjects = [context executeFetchRequest:request error:nil];
-	[oldObjects enumerateObjectsUsingBlock:^(NSManagedObject *obj, NSUInteger idx, BOOL *stop) {
-		[context deleteObject:obj];
-	}];
+	NSArray *fetched = [fetchedPacks objectForKey:entity.name];
+	NSArray *oldObjects = nil;
+	if (fetched.count)
+	{
+		oldObjects = predicate ? [fetched filteredArrayUsingPredicate:predicate] : fetched;
+		[oldObjects enumerateObjectsUsingBlock:^(NSManagedObject *obj, NSUInteger idx, BOOL *stop) {
+			[context deleteObject:obj];
+		}];
+	}
 	
 	// После окончания действий с обновлением БД удаляем временные массивы
-	NSLog(@"Updated[%@] %i", entity.name, set.count);
+	NSLog(@"%@: Updated[%i], Deleted[%i]", entity.name, updated.count, oldObjects.count);
 	[fetchedPacks removeObjectForKey:entity.name];
 	[updatedPacks removeObjectForKey:entity.name];
 }
