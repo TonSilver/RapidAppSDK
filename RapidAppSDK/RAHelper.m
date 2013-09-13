@@ -247,6 +247,36 @@ typedef enum {
 	RA_CACHE_END
 }
 
++ (UIImage *)image:(UIImage *)image colorizedWithColor:(UIColor *)color
+{
+	if (!color)
+		return image;
+	
+	UIGraphicsBeginImageContext(image.size);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	[color setFill];
+	
+	// translate/flip the graphics context (for transforming from CG* coords to UI* coords
+	CGContextTranslateCTM(context, 0, image.size.height);
+	CGContextScaleCTM(context, 1.0, -1.0);
+	
+	// set the blend mode to color burn, and the original image
+	CGContextSetBlendMode(context, kCGBlendModeColor);
+	CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+	CGContextDrawImage(context, rect, image.CGImage);
+	
+	// set a mask that matches the shape of the image, then draw (color burn) a colored rectangle
+	CGContextClipToMask(context, rect, image.CGImage);
+	CGContextAddRect(context, rect);
+	CGContextDrawPath(context, kCGPathFill);
+	
+	// generate a new UIImage from the graphics context we drew onto
+	UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return coloredImg;
+}
+
 
 #pragma mark - (DateFormatter)
 

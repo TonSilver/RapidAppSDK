@@ -29,6 +29,8 @@
 
 + (UIImage *)resizableRoundedImageWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
 
++ (UIImage *)image:(UIImage *)image colorizedWithColor:(UIColor *)color;
+
 #pragma mark - NSDateFormatter
 
 + (NSDateFormatter *)dateFormatterWithFormat:(NSString *)dateFormat;
