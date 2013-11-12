@@ -8,7 +8,11 @@
 
 
 #define RA_C255(NUM255) (NUM255 / 255.f)
+#define RA_UICOLOR_FROM_RGBa(R, G, B, A) [UIColor colorWithRed:RA_C255(R) green:RA_C255(G) blue:RA_C255(B) alpha:A]
 #define RA_ARE_OBJECTS_EQUAL(ONE, IS_EQUAL_SELECTOR, TWO) (!((!!ONE != !!TWO) || (ONE && TWO && ![ONE IS_EQUAL_SELECTOR TWO])))
+
+
+extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset);
 
 
 @interface RAHelper : NSObject

@@ -12,6 +12,16 @@
 #import <CommonCrypto/CommonDigest.h>
 
 
+extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset)
+{
+	rect.origin.x += inset.left;
+	rect.origin.y += inset.top;
+	rect.size.width -= (inset.left + inset.right);
+	rect.size.height -= (inset.top + inset.bottom);
+	return rect;
+}
+
+
 #pragma mark - Helper (Private)
 
 @interface RAHelper ()
