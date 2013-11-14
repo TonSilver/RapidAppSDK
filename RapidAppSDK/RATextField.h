@@ -10,6 +10,8 @@
 
 @interface RATextField : UITextField
 
-@property UIEdgeInsets ra_EdgeInsets;
+@property (nonatomic) UIEdgeInsets ra_EdgeInsets;
+
+@property (nonatomic) BOOL ra_ErrorInText;
 
 @end

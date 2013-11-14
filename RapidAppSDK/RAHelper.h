@@ -17,6 +17,11 @@ extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset);
 
 @interface RAHelper : NSObject
 
+#pragma makr - Checking
+
+// Проверка корректности емэйла
++ (BOOL)isEmailCorrect:(NSString *)string;
+
 #pragma mark - (Dictionary)
 
 // Делает словарь из указанных объектов и ключей, в которых могут содержаться "нули" (nil, NULL)

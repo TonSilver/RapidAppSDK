@@ -38,6 +38,26 @@ extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset)
 SHARED_METHOD_IMPLEMENTATION
 
 
+#pragma makr - Checking
+
+// Проверка корректности емэйла
++ (BOOL)isEmailCorrect:(NSString *)string
+{
+	// Discussion http://blog.logichigh.com/2010/09/02/validating-an-e-mail-address/
+#if 1
+	// Stricter filter string
+	NSString *emailRegex = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+#else
+	// Lax string
+	NSString *emailRegex = @".+@([A-Za-z0-9]+\\.)+[A-Za-z]{2}[A-Za-z]*";
+#endif
+	NSPredicate *emailTest = RA_CACHE_BEGIN_KEY(emailRegex)
+	return [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+	RA_CACHE_END
+	return [emailTest evaluateWithObject:string];
+}
+
+
 #pragma mark - (Dictionary)
 
 // Делает словарь из указанных объектов и ключей, в которых могут содержаться "нули" (nil, NULL)
@@ -209,7 +229,7 @@ typedef enum {
 
 + (UIImage *)resizableRoundedImageWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
 {
-	RA_CACHE_BEGIN_FORMAT(@"%@%@%.1f%.1f%@", NSStringFromCGSize(size), color, radius, borderWidth, borderColor)
+	RA_CACHE_RETURN_BEGIN_FORMAT(@"%@%@%.1f%.1f%@", NSStringFromCGSize(size), color, radius, borderWidth, borderColor)
 	
 	// Path making
 	CGMutablePathRef path = CGPathCreateMutable();
@@ -293,7 +313,7 @@ typedef enum {
 // Получить форматтер нужного формата
 + (NSDateFormatter *)dateFormatterWithFormat:(NSString *)dateFormat
 {
-	RA_CACHE_BEGIN_KEY(dateFormat)
+	RA_CACHE_RETURN_BEGIN_KEY(dateFormat)
 	NSDateFormatter *formatter = [NSDateFormatter new];
 	[formatter setDateFormat:dateFormat];
 	NSString *langId = [self currentLocale];
