@@ -87,7 +87,7 @@ SHARED_METHOD_IMPLEMENTATION
 {
 	if ([self.writeContext hasChanges])
 	{
-		NSLog(@"%08x [RADataBase|%@] Changed: %u, Inserted: %u, Removed: %u", (int)self, NSStringFromSelector(_cmd), [self.writeContext updatedObjects].count, [self.writeContext insertedObjects].count, [self.writeContext deletedObjects].count);
+		NSLog(@"%08x [RADataBase|%@] Changed: %i, Inserted: %i, Removed: %i", (int)self, NSStringFromSelector(_cmd), (int)[self.writeContext updatedObjects].count, (int)[self.writeContext insertedObjects].count, (int)[self.writeContext deletedObjects].count);
 		NSError *anError = nil;
 		if (![self.writeContext save:&anError])
 		{
@@ -451,7 +451,7 @@ SHARED_METHOD_IMPLEMENTATION
 	}
 	
 	// После окончания действий с обновлением БД удаляем временные массивы
-	NSLog(@"%@: Updated[%i], Deleted[%i]", entity.name, updated.count, oldObjects.count);
+	NSLog(@"%@: Updated[%i], Deleted[%i]", entity.name, (int)updated.count, (int)oldObjects.count);
 	[fetchedPacks removeObjectForKey:entity.name];
 	[updatedPacks removeObjectForKey:entity.name];
 }

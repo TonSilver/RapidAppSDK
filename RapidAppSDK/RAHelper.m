@@ -358,7 +358,7 @@ typedef enum {
 	
 	const char *cStr = [string UTF8String];
 	unsigned char result[CC_MD5_DIGEST_LENGTH];
-	CC_MD5(cStr, strlen(cStr), result);
+	CC_MD5(cStr, (CC_LONG)strlen(cStr), result);
 	NSMutableString *resultStr = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH*2];
 	for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
 		[resultStr appendFormat:@"%02x", result[i]];
@@ -441,7 +441,7 @@ typedef enum {
 
 - (void)didReceiveMemoryWarning
 {
-	NSLog(@"[RAHelper] Clear cache for %i objects", _objCache.count);
+	NSLog(@"[RAHelper] Clear cache for %i objects", (int)_objCache.count);
 	[_objCache release];
 	_objCache = nil;
 }
