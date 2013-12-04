@@ -307,6 +307,14 @@ typedef enum {
 	return coloredImg;
 }
 
+#pragma mark - NSError
+
++ (NSError *)errorWithDescription:(NSString *)desc code:(NSInteger)code
+{
+	if (desc.length > 0)
+		return [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier code:code userInfo:@{NSLocalizedDescriptionKey:desc}];
+	return [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier code:code userInfo:nil];
+}
 
 #pragma mark - (DateFormatter)
 

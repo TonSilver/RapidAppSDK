@@ -40,6 +40,10 @@ extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset);
 
 + (UIImage *)image:(UIImage *)image colorizedWithColor:(UIColor *)color;
 
+#pragma mark - NSError
+
++ (NSError *)errorWithDescription:(NSString *)desc code:(NSInteger)code;
+
 #pragma mark - NSDateFormatter
 
 + (NSDateFormatter *)dateFormatterWithFormat:(NSString *)dateFormat;
