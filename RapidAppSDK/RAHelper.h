@@ -16,6 +16,7 @@
 
 
 extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset);
+extern CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloat height);
 
 
 @interface RAHelper : NSObject

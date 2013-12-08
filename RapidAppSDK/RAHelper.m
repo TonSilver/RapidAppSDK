@@ -12,12 +12,21 @@
 #import <CommonCrypto/CommonDigest.h>
 
 
-extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset)
+CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset)
 {
 	rect.origin.x += inset.left;
 	rect.origin.y += inset.top;
 	rect.size.width -= (inset.left + inset.right);
 	rect.size.height -= (inset.top + inset.bottom);
+	return rect;
+}
+
+CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloat height)
+{
+	rect.origin.x = rintf((rect.size.width - width) / 2);
+	rect.origin.y = rintf((rect.size.height - height) / 2);
+	rect.size.width = width;
+	rect.size.height = height;
 	return rect;
 }
 
