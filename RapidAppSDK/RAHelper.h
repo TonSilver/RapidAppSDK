@@ -44,6 +44,8 @@ extern CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloa
 
 + (UIImage *)image:(UIImage *)image colorizedWithColor:(UIColor *)color;
 
++ (UIImage *)imageWithText:(NSString *)text font:(UIFont *)font color:(UIColor *)color;
+
 #pragma mark - NSError
 
 + (NSError *)errorWithDescription:(NSString *)desc code:(NSInteger)code;

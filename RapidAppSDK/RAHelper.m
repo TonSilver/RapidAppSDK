@@ -316,6 +316,24 @@ typedef enum {
 	return coloredImg;
 }
 
++ (UIImage *)imageWithText:(NSString *)text font:(UIFont *)font color:(UIColor *)color
+{
+	RA_CACHE_RETURN_BEGIN_FORMAT(@"%@%@%@%.1f%@", text, font.familyName, font.fontName, font.pointSize, color)
+	
+	CGSize size = [text sizeWithFont:font];
+	if ((int)size.width % 2) size.width += 1;
+	if ((int)size.height % 2) size.height += 1;
+	UIGraphicsBeginImageContext(size);
+	[color setFill];
+	[text drawAtPoint:CGPointZero withFont:font];
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return image;
+	
+	RA_CACHE_END
+}
+
 #pragma mark - NSError
 
 + (NSError *)errorWithDescription:(NSString *)desc code:(NSInteger)code
