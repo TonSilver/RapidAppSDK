@@ -59,7 +59,7 @@ SHARED_METHOD_IMPLEMENTATION
 /*
  Генерирует имя файла в кеше по его URL.
  */
-static inline NSString *cacheNameStringForURLString(NSString *urlString)
+static inline NSString *cacheNameStringForURLString(NSString *urlString, NSString *suffix)
 {
 #if defined (STORE_PATH_EXT) || (defined (DEBUG) && TARGET_IPHONE_SIMULATOR)
 	NSString *md5 = [RAHelper md5FromString:urlString];
@@ -67,32 +67,39 @@ static inline NSString *cacheNameStringForURLString(NSString *urlString)
 #else
 	NSString *name = [RAHelper md5FromString:urlString];
 #endif
+	if (suffix)
+		name = [name stringByAppendingPathExtension:suffix];
 	return name;
+}
+
++ (NSURL *)cacheURLForURL:(NSURL *)url withSuffix:(NSString *)suffix
+{
+	if (!url)
+		return nil;
+	NSString *name = cacheNameStringForURLString(url.absoluteString, suffix);
+	NSString *path = [[self fileCachePath] stringByAppendingPathComponent:name];
+	return [NSURL fileURLWithPath:path];
 }
 
 + (NSURL *)cacheURLForURL:(NSURL *)url
 {
-	if (!url)
-		return nil;
-	NSString *name = cacheNameStringForURLString(url.absoluteString);
-	NSString *path = [[self fileCachePath] stringByAppendingPathComponent:name];
-	return [NSURL fileURLWithPath:path];
+	return [self cacheURLForURL:url withSuffix:nil];
 }
 
 + (NSString *)cachePathStringForURLString:(NSString *)urlString
 {
 	if (!urlString || ![urlString length])
 		return nil;
-	NSString *name = cacheNameStringForURLString(urlString);
+	NSString *name = cacheNameStringForURLString(urlString, nil);
 	NSString *path = [[self fileCachePath] stringByAppendingPathComponent:name];
 	return path;
 }
 
-+ (BOOL)setCache:(NSData *)value withDate:(NSDate *)date forURL:(NSURL *)url
++ (BOOL)setCache:(NSData *)value withDate:(NSDate *)date forURL:(NSURL *)url withSuffix:(NSString *)suffix
 {
 	if (value && url)
 	{
-		NSURL *cacheURL = [self cacheURLForURL:url];
+		NSURL *cacheURL = [self cacheURLForURL:url withSuffix:suffix];
 		if (!date)
 			date = [NSDate dateWithTimeIntervalSince1970:0];
 		NSDictionary *attributes = @{ NSFileModificationDate:date };
@@ -105,6 +112,11 @@ static inline NSString *cacheNameStringForURLString(NSString *urlString)
 	}
 	NSLog(@"[RAFileCache] Error!! [%@]", RAFC_SHORTYFY(url));
 	return NO;
+}
+
++ (BOOL)setCache:(NSData *)value withDate:(NSDate *)date forURL:(NSURL *)url
+{
+	return [self setCache:value withDate:date forURL:url withSuffix:nil];
 }
 
 + (BOOL)isURLCached:(NSURL *)url
@@ -131,11 +143,17 @@ static inline NSString *cacheNameStringForURLString(NSString *urlString)
 	}
 }
 
-+ (NSData *)cacheForURL:(NSURL *)url
++ (NSData *)cacheForURL:(NSURL *)url withSuffix:(NSString *)suffix andDate:(NSDate **)date
 {
 	if (url)
 	{
-		NSURL *cacheURL = [self cacheURLForURL:url];
+		NSURL *cacheURL = [self cacheURLForURL:url withSuffix:suffix];
+		// Время последней модификации
+		if (date)
+		{
+			NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:cacheURL.path error:nil];
+			*date = [[[attributes fileModificationDate] retain] autorelease];
+		}
 		// Содержимое файла
 		NSData *value = [NSData dataWithContentsOfURL:cacheURL];
 		NSLog(@"[RAFileCache] ^_^ [%@] -> [%@]", RAFC_SHORTYFY(url), RAFC_SHORTYFY(cacheURL));
@@ -145,21 +163,33 @@ static inline NSString *cacheNameStringForURLString(NSString *urlString)
 	return nil;
 }
 
++ (NSData *)cacheForURL:(NSURL *)url
+{
+	return [self cacheForURL:url withSuffix:nil andDate:nil];
+}
+
++ (NSData *)cacheForURL:(NSURL *)url withSuffix:(NSString *)suffix
+{
+	return [self cacheForURL:url withSuffix:suffix andDate:nil];
+}
+
 + (NSData *)cacheForURL:(NSURL *)url withDate:(NSDate **)date
 {
-	if (url)
-	{
-		NSURL *cacheURL = [self cacheURLForURL:url];
-		// Время последней модификации
-		NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:cacheURL.path error:nil];
-		*date = [[[attributes fileModificationDate] retain] autorelease];
-		// Содержимое файла
-		NSData *value = [NSData dataWithContentsOfURL:cacheURL];
-		NSLog(@"[RAFileCache] ^_^ [%@] -> [%@]", RAFC_SHORTYFY(url), RAFC_SHORTYFY(cacheURL));
-		return value;
-	}
-	NSLog(@"[RAFileCache] :-( [%@]", RAFC_SHORTYFY(url));
-	return nil;
+	return [self cacheForURL:url withSuffix:nil andDate:date];
+}
+
+
+// Получение картинки из кеша
++ (UIImage *)cacheImageForURL:(NSURL *)url
+{
+	NSData *data = [self cacheForURL:url];
+	return [UIImage imageWithData:data];
+}
+
++ (UIImage *)cacheImageForURL:(NSURL *)url withSuffix:(NSString *)suffix
+{
+	NSData *data = [self cacheForURL:url withSuffix:suffix];
+	return [UIImage imageWithData:data];
 }
 
 + (void)clear
