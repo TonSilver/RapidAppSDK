@@ -10,6 +10,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonDigest.h>
+#import <objc/runtime.h>
 
 
 CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset)
@@ -29,6 +30,13 @@ CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloat heigh
 	rect.size.height = height;
 	return rect;
 }
+
+
+#pragma mark - Alert View (Interface)
+
+@interface UIAlertView (RapidAppSDK)
+@property (readwrite, nonatomic, strong, setter = ra_setClickedButtonAtIndexAction:) RAAlertViewClickedButtonAtIndexAction ra_clickedButtonAtIndexAction;
+@end
 
 
 #pragma mark - Helper (Private)
@@ -98,6 +106,19 @@ SHARED_METHOD_IMPLEMENTATION
 	return langId;
 }
 
+
+#pragma mark - UIAlertView
+
++ (RAAlertViewClickedButtonAtIndexAction)alertViewClickedButtonAtIndexAction:(UIAlertView *)alertView
+{
+	return alertView.ra_clickedButtonAtIndexAction;
+}
+
++ (UIAlertView *)alertView:(UIAlertView *)alertView setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action
+{
+	alertView.ra_clickedButtonAtIndexAction = action;
+	return alertView;
+}
 
 
 #pragma mark - UIImage
@@ -489,6 +510,23 @@ static NSString *debug_FileLogPath = nil;
 		NSString *path = [debug_FileLogPath stringByAppendingPathComponent:fileName];
 		[data writeToFile:path atomically:YES];
 	}
+}
+
+@end
+
+
+#pragma mark - Alert View (Implementation)
+
+@implementation UIAlertView (RapidAppSDK)
+@dynamic ra_clickedButtonAtIndexAction;
+
+static char kRAAlertViewClickedButtonAtIndexActionKey;
+
+- (RAAlertViewClickedButtonAtIndexAction)ra_clickedButtonAtIndexAction {
+    return (RAAlertViewClickedButtonAtIndexAction) objc_getAssociatedObject(self, &kRAAlertViewClickedButtonAtIndexActionKey);
+}
+- (void)ra_setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action {
+    objc_setAssociatedObject(self, &kRAAlertViewClickedButtonAtIndexActionKey, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 @end

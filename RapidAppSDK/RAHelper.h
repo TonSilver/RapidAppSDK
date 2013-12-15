@@ -19,6 +19,9 @@ extern CGRect ra_CGRectInsetWithEdges(CGRect rect, UIEdgeInsets inset);
 extern CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloat height);
 
 
+typedef void (^RAAlertViewClickedButtonAtIndexAction)(UIAlertView *alertView, NSInteger buttonIndex);
+
+
 @interface RAHelper : NSObject
 
 #pragma makr - Checking
@@ -34,6 +37,11 @@ extern CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloa
 #pragma mark - (Locale)
 
 + (NSString *)currentLocale;
+
+#pragma mark - UIAlertView
+
++ (RAAlertViewClickedButtonAtIndexAction)alertViewClickedButtonAtIndexAction:(UIAlertView *)alertView;
++ (UIAlertView *)alertView:(UIAlertView *)alertView setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action;
 
 #pragma mark - UIImage
 
