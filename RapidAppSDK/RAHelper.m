@@ -32,6 +32,15 @@ CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloat heigh
 }
 
 
+static void ra_DoWithSubviews(UIView *view, Class class, void (^action)(UIView *view))
+{
+	if ([view isKindOfClass:class])
+		action(view);
+	for (UIView *subview in view.subviews)
+		ra_DoWithSubviews(subview, class, action);
+}
+
+
 #pragma mark - Alert View (Interface)
 
 @interface UIAlertView (RapidAppSDK)
@@ -104,6 +113,19 @@ SHARED_METHOD_IMPLEMENTATION
 	NSArray *langs = [NSLocale preferredLanguages];
 	NSString *langId = langs.count ? langs[0] : nil;
 	return langId;
+}
+
+
+#pragma mark - UIWebView
+
++ (void)webView:(UIWebView *)webView setLikeScrollView:(BOOL)likeScrollView
+{
+	if (likeScrollView)
+	{
+		ra_DoWithSubviews(webView, [UIImageView class], ^(UIView *view) {
+			view.hidden = YES;
+		});
+	}
 }
 
 

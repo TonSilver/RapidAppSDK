@@ -38,6 +38,10 @@ typedef void (^RAAlertViewClickedButtonAtIndexAction)(UIAlertView *alertView, NS
 
 + (NSString *)currentLocale;
 
+#pragma mark - UIWebView
+
++ (void)webView:(UIWebView *)webView setLikeScrollView:(BOOL)likeScrollView;
+
 #pragma mark - UIAlertView
 
 + (RAAlertViewClickedButtonAtIndexAction)alertViewClickedButtonAtIndexAction:(UIAlertView *)alertView;
