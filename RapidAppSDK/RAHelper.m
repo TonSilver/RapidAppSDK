@@ -143,6 +143,16 @@ SHARED_METHOD_IMPLEMENTATION
 }
 
 
+#pragma mark AlertView Protocol
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	RAAlertViewClickedButtonAtIndexAction action = [RAHelper alertViewClickedButtonAtIndexAction:alertView];
+	if (action)
+		action(alertView, buttonIndex);
+}
+
+
 #pragma mark - UIImage
 
 typedef enum {
