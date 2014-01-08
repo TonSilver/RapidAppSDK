@@ -11,6 +11,7 @@
 + (instancetype)shared;
 
 // Путь к файлу в кэше
++ (NSURL *)cacheURLForURL:(NSURL *)url withSuffix:(NSString *)suffix;
 + (NSURL *)cacheURLForURL:(NSURL *)url;
 + (NSString *)cachePathStringForURLString:(NSString *)url;
 

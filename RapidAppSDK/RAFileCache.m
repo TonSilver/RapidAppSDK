@@ -61,20 +61,29 @@ SHARED_METHOD_IMPLEMENTATION
  */
 static inline NSString *cacheNameStringForURLString(NSString *urlString, NSString *suffix)
 {
+	NSString *name = nil;
+	if (urlString)
+	{
 #if defined (STORE_PATH_EXT) || (defined (DEBUG) && TARGET_IPHONE_SIMULATOR)
-	NSString *md5 = [RAHelper md5FromString:urlString];
-	NSString *name = [md5 stringByAppendingPathExtension:[urlString pathExtension]];
+		NSString *md5 = [RAHelper md5FromString:urlString];
+		name = [md5 stringByAppendingPathExtension:[urlString pathExtension]];
 #else
-	NSString *name = [RAHelper md5FromString:urlString];
+		NSString *name = [RAHelper md5FromString:urlString];
 #endif
+	}
 	if (suffix)
-		name = [name stringByAppendingPathExtension:suffix];
+	{
+		if (name)
+			name = [name stringByAppendingPathExtension:suffix];
+		else
+			name = suffix;
+	}
 	return name;
 }
 
 + (NSURL *)cacheURLForURL:(NSURL *)url withSuffix:(NSString *)suffix
 {
-	if (!url)
+	if (!url && !suffix)
 		return nil;
 	NSString *name = cacheNameStringForURLString(url.absoluteString, suffix);
 	NSString *path = [[self fileCachePath] stringByAppendingPathComponent:name];
