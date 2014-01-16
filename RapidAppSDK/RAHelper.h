@@ -59,6 +59,10 @@ typedef void (^RAAlertViewClickedButtonAtIndexAction)(UIAlertView *alertView, NS
 
 + (UIImage *)imageWithText:(NSString *)text font:(UIFont *)font color:(UIColor *)color;
 
+#pragma mark - UIColor
+
++ (UIColor *)colorRandom;
+
 #pragma mark - NSError
 
 + (NSError *)errorWithDescription:(NSString *)desc code:(NSInteger)code;

@@ -387,6 +387,14 @@ typedef enum {
 	RA_CACHE_END
 }
 
+#pragma mark - UIColor
+
++ (UIColor *)colorRandom
+{
+	UIColor *color = [UIColor colorWithRed:(rand() / (CGFloat)RAND_MAX) green:(rand() / (CGFloat)RAND_MAX) blue:(rand() / (CGFloat)RAND_MAX) alpha:0.5];
+	return color;
+}
+
 #pragma mark - NSError
 
 + (NSError *)errorWithDescription:(NSString *)desc code:(NSInteger)code
