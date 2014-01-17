@@ -23,7 +23,9 @@ static dispatch_queue_t ScenariosQueue = NULL;
 		if (!ScenariosQueue)
 			ScenariosQueue = dispatch_queue_create("RAScenariosRunner", DISPATCH_QUEUE_SERIAL);
 		
+#ifndef NSLog
 		NSString *logString = [NSString stringWithFormat:@"[RAScenariosRunner] [%@ %@] %@ >>> Running...", NSStringFromClass([object class]), NSStringFromSelector(selector), command];
+#endif
 		
 		dispatch_async(ScenariosQueue, ^{
 			double delayInSeconds = 0.1;
