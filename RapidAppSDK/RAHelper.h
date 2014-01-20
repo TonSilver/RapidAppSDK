@@ -22,8 +22,10 @@ extern CGRect ra_CGRectWithSizeCenteredInRect(CGRect rect, CGFloat width, CGFloa
 
 typedef void (^RAAlertViewClickedButtonAtIndexAction)(UIAlertView *alertView, NSInteger buttonIndex);
 
+typedef void (^RAActionSheetDidDissmissWithButtonIndexAction)(UIActionSheet *actionSheet, NSInteger buttonIndex);
 
-@interface RAHelper : NSObject <UIAlertViewDelegate>
+
+@interface RAHelper : NSObject <UIAlertViewDelegate, UIActionSheetDelegate>
 
 #pragma makr - Checking
 
@@ -47,6 +49,12 @@ typedef void (^RAAlertViewClickedButtonAtIndexAction)(UIAlertView *alertView, NS
 
 + (RAAlertViewClickedButtonAtIndexAction)alertViewClickedButtonAtIndexAction:(UIAlertView *)alertView;
 + (UIAlertView *)alertView:(UIAlertView *)alertView setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action;
+
+#pragma mark - UIActionSheet
+
++ (RAActionSheetDidDissmissWithButtonIndexAction)actionSheetDidDissmissWithButtonIndexAction:(UIActionSheet *)actionSheet;
++ (UIActionSheet *)actionSheet:(UIActionSheet *)actionSheet setDidDissmissWithButtonIndexAction:(RAActionSheetDidDissmissWithButtonIndexAction)action;
+
 
 #pragma mark - UIImage
 

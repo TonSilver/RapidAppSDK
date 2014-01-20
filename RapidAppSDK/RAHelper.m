@@ -48,6 +48,13 @@ static void ra_DoWithSubviews(UIView *view, Class class, void (^action)(UIView *
 @end
 
 
+#pragma mark - Action Sheet (Interface)
+
+@interface UIActionSheet (RapidAppSDK)
+@property (readwrite, nonatomic, strong, setter = ra_setActionSheetDidDissmissWithButtonIndexAction:) RAActionSheetDidDissmissWithButtonIndexAction ra_actionSheetDidDissmissWithButtonIndexAction;
+@end
+
+
 #pragma mark - Helper (Private)
 
 @interface RAHelper ()
@@ -131,13 +138,11 @@ SHARED_METHOD_IMPLEMENTATION
 
 #pragma mark - UIAlertView
 
-+ (RAAlertViewClickedButtonAtIndexAction)alertViewClickedButtonAtIndexAction:(UIAlertView *)alertView
-{
++ (RAAlertViewClickedButtonAtIndexAction)alertViewClickedButtonAtIndexAction:(UIAlertView *)alertView {
 	return alertView.ra_clickedButtonAtIndexAction;
 }
 
-+ (UIAlertView *)alertView:(UIAlertView *)alertView setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action
-{
++ (UIAlertView *)alertView:(UIAlertView *)alertView setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action {
 	alertView.ra_clickedButtonAtIndexAction = action;
 	return alertView;
 }
@@ -150,6 +155,27 @@ SHARED_METHOD_IMPLEMENTATION
 	RAAlertViewClickedButtonAtIndexAction action = [RAHelper alertViewClickedButtonAtIndexAction:alertView];
 	if (action)
 		action(alertView, buttonIndex);
+}
+
+
+#pragma mark - UIActionSheet
+
++ (RAActionSheetDidDissmissWithButtonIndexAction)actionSheetDidDissmissWithButtonIndexAction:(UIActionSheet *)actionSheet {
+	return actionSheet.ra_actionSheetDidDissmissWithButtonIndexAction;
+}
+
++ (UIActionSheet *)actionSheet:(UIActionSheet *)actionSheet setDidDissmissWithButtonIndexAction:(RAActionSheetDidDissmissWithButtonIndexAction)action {
+	actionSheet.ra_actionSheetDidDissmissWithButtonIndexAction = action;
+	return actionSheet;
+}
+
+#pragma mark ActionSheet Protocol
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	RAActionSheetDidDissmissWithButtonIndexAction action = [RAHelper actionSheetDidDissmissWithButtonIndexAction:actionSheet];
+	if (action)
+		action(actionSheet, buttonIndex);
 }
 
 
@@ -567,6 +593,23 @@ static char kRAAlertViewClickedButtonAtIndexActionKey;
 }
 - (void)ra_setClickedButtonAtIndexAction:(RAAlertViewClickedButtonAtIndexAction)action {
     objc_setAssociatedObject(self, &kRAAlertViewClickedButtonAtIndexActionKey, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+@end
+
+
+#pragma mark - Action Sheet (Implementation)
+
+@implementation UIActionSheet (RapidAppSDK)
+@dynamic ra_actionSheetDidDissmissWithButtonIndexAction;
+
+static char kRAActionSheetDidDissmissWithButtonIndexActionKey;
+
+- (RAActionSheetDidDissmissWithButtonIndexAction)ra_actionSheetDidDissmissWithButtonIndexAction {
+    return (RAActionSheetDidDissmissWithButtonIndexAction) objc_getAssociatedObject(self, &kRAActionSheetDidDissmissWithButtonIndexActionKey);
+}
+- (void)ra_setActionSheetDidDissmissWithButtonIndexAction:(RAActionSheetDidDissmissWithButtonIndexAction)action {
+    objc_setAssociatedObject(self, &kRAActionSheetDidDissmissWithButtonIndexActionKey, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 @end
